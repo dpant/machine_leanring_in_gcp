@@ -1,6 +1,30 @@
 General ML pipelines
 ---------------------
 
+7 Qwick labs for the full ML development flow.
+
+![image](https://user-images.githubusercontent.com/1594001/137011359-33034e95-178c-48d6-a2ec-99fa36979c90.png)
+
+
+To effectively do ML you might need a GCP ML tool (Cloud ML Engine). This course use tf.estimater level.
+
+
+![image](https://user-images.githubusercontent.com/1594001/137011595-6daa6d28-0253-4fcf-a591-2214152689cf.png)
+
+
+Large datasets will not fit in memory of single machine. For good ML results your final pipeline should not sample data or aggregrate data.
+
+Model training in large dataset is not a emberassing parallel nature. Gradient decent are not embarassingly parallel you need parameter servers which have shared memory to update the parameter during each epoch. Scaling out is the answer (not scaling up).
+
+Big data ---> feature engineer in full data set --> Use appropriate model architecture (CNN / RNN etc)---> Deplay and autoscale prediction code. ----> REST API. (query/seconds)
+
+Hyperparameter turning also gives a decent improvements.
+
+Who does the preprocessing, encoding (embedding) scaling during prediction phase? Avoid Training servering skew. Use Cloud ML engine.
+tf.transform for precessoing/encoding, scaling.
+
+Cloud data flow (preprocessing) and Cloud ML engine are both serverless technology.
+
 High level flow::
 ------------------
 
