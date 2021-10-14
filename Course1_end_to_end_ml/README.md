@@ -1,9 +1,11 @@
 General ML pipelines
 ---------------------
 
-7 Qwick labs for the full ML development flow.
+This course teaches full ML development flow using 7 Qwick labs listed as follows.
 
 ![image](https://user-images.githubusercontent.com/1594001/137011359-33034e95-178c-48d6-a2ec-99fa36979c90.png)
+
+![image](https://user-images.githubusercontent.com/1594001/137022365-a430a151-7c45-4c04-ba8d-7dcdbb1a8138.png)
 
 
 To effectively do ML you might need a GCP ML tool (Cloud ML Engine). This course use tf.estimater level.
@@ -23,7 +25,13 @@ Hyperparameter turning also gives a decent improvements.
 Who does the preprocessing, encoding (embedding) scaling during prediction phase? Avoid Training servering skew. Use Cloud ML engine.
 tf.transform for precessoing/encoding, scaling.
 
-Cloud data flow (preprocessing) and Cloud ML engine are both serverless technology.
+Cloud data flow (for preprocessing) and Cloud ML engine are both serverless techonology which scales for very large datasets!
+
+**Explore the data:**
+Gives you sense of data, what it looks like, what is its distrubiton, missing values etc. Develop the understanding of data.
+During production you have to deal with data as it comes.
+
+Most model are operated in structured data, ie MLP (~60%).LSTM (~30).CNN (~5%)
 
 High level flow::
 ------------------
@@ -38,9 +46,10 @@ Module #1
 - Structure data (table). predicting weight of baby right after Birth.
 - EDA
     - Explore data: Find out which field (columns) have impact on target variable(mean). So if you have X1,X2,....Xn --> Y figure out which of X1,X2...Xn different value have different mean in Y. If sex(male/female) does not change the mean of Y , it is highly likely its not a good predictor (feature) for Y. You can also figure out how many samples you have for each column value of (X1,X2....Xn) This will help you in figuring out how bananced your dataset is.
-    - GCP your data can be usually in bigquery (data warehouse) or GCP storage https://www.coursera.org/learn/end-to-end-ml-tensorflow-gcp/supplement/875zO/ai-platform-notebooks       - How to create a Notebook? In GCP console (console.cloud.google.com) GOTO "AI Platform" ====> Notebooks ==> Enable Notebook API ==> Create Instance. This will take 2-3 mins to launch a notebook session.(Create a VM for it) ==> Open Jupyter Lab.
+    - GCP your data can be usually in bigquery (data warehouse) or GCP storage. Notebook architecure. https://www.coursera.org/learn/end-to-end-ml-tensorflow-gcp/supplement/875zO/ai-platform-notebooks    
+    - How to create a Notebook? In GCP console (console.cloud.google.com) GOTO "AI Platform" ====> Notebooks ==> Enable Notebook API ==> Create Instance. This will take 2-3 mins to launch a notebook session.(Create a VM for it) ==> Open Jupyter Lab.
     - You can create a terminal and clone repo etc in it.
-    - Key idea is to use group by on a column to generate the count and avg and plot it to know if your var have any impact in the target var. 
+    - Key idea is to use group by on a column to generate the count and avg and plot it to know if your variable have any impact in the target var. 
     - Big query in this case was able to aggregrate/group by query for ~30 M record in less than 3 sec.
 
 Sample big query.
@@ -93,36 +102,50 @@ df = df.sort_values('mother_age')
 df.plot(x='mother_age', y='num_babies');
 df.plot(x='mother_age', y='avg_wt');
 ```
-
-Full Lab location for exploratory data analysis is 
-
+**Full Lab 1 location for exploratory data analysis is**
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/06_structured/1_explore.ipynb
-
 
 Big query tutorial https://cloud.google.com/blog/topics/public-datasets/google-bigquery-public-datasets-now-include-stack-overflow-q-a
 
 Module #2
 ---------
-Sampling and data preprocessing.
+Prototype a model fast by sampling data (creating small dataset). Then scale it out by using full dataset later.
+
+Sampling data, data preprocessing (encoding), building model.
 
 1. Speed up training iterations during development. Sampling the big data to make it smaller and develop your model on smaller set ( make sure it is representative of full dataset). START OUT SIMPLE and iterate fast in small dataset. Make sure your splitting statergy does not have data leakage. Look for nearlyl identical rows in datasets whcih can go to train or test during split. Using FARM_FINGERPRINT is one of the way to hash and avoid this data leakage.
+
+Let say if few varable may or may not be available at prediction time? how do you deal with it.
+Approach #1: Build two model , one with those variable in the data, other without those variable.
+Approach #2: Build only one model but train in both fully known and masked data.
 
 2. If you know that during predict phase some feature might or might not be available, you should make a copy of current data, mask the missing var and append it to the orginal data. This will create a big dataset which when trained will not be dependent on optional variable.
 
 4. Data preprocessing is captured in notebook below. Which include removing missing value rows. Use FARM_FINGERPRINT, ABS,MOD function to sample data randomly.
 
+Lab2: (Data sampling, dataset creation)
+
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/labs/sample_babyweight.ipynb
 
-Consider DNN when you have dense features (images, pixels in range 0-255) and correlated features (nearby pixels in images)
-Consider linear model for sparse independent features. DNN for dense correlated features.
+More about tf.estimator
 
-If both use "wide and deep model." : take sparse input and connect them directly to output. and pass dense input through multiple layer. DNNLinearCombinedClassifier
+![image](https://user-images.githubusercontent.com/1594001/137040801-5a7d581e-013e-489c-8f55-e96fde02f24f.png)
+
+
+Consider DNN when you have "dense features" (images, pixels in range 0-255) and correlated features (nearby pixels in images)
+Consider linear model for sparse independent features. 
+DNN works well for dense highly correlated features. DNN does not work in sparse data.
+
+Used "deep-and-wide model" (tf.estimator.DNNLinearCombinedClassifier) if you have both dense and sparse feature (eg. employee id). Sparse input --> connect them directly to output , dense input--> multiple layers.
+
+If both use "wide and deep model." : takes sparse input and connect them directly to output. and pass dense input through multiple layer. DNNLinearCombinedClassifier
 
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/keras_dnn_babyweight.ipynb
 
 Look into the categorical_fc fucntion to see how to encode variable.
 Use tf.estimator.* API for training model. training loop save the model in checkpoint. eval loop restore the model and evaluate 
 
+Use tf.estimator.train_and_evaluate for continuous training and evaluating.
 
 Module 3
 ---------------
