@@ -131,6 +131,9 @@ More about tf.estimator
 
 ![image](https://user-images.githubusercontent.com/1594001/137040801-5a7d581e-013e-489c-8f55-e96fde02f24f.png)
 
+How to create a encoding and create feature_column
+
+![image](https://user-images.githubusercontent.com/1594001/138500694-b180eaca-1357-4c3f-aea1-3e24afe49631.png)
 
 Consider DNN when you have "dense features" (images, pixels in range 0-255) and correlated features (nearby pixels in images)
 Consider linear model for sparse independent features. 
@@ -149,11 +152,15 @@ Use tf.estimator.train_and_evaluate for continuous training and evaluating.
 
 Module 3
 ---------------
-Distributed training and model serving
+For full dataset we want to use "Distributed training and model serving". Define apache beam pipeline, execute in cloud dataflow
 
-Apache beam: data processing pipeline. (support both batch and steram). SDK. you can write 
+Apache beam: data processing pipeline. (support both batch and steram). SDK. you can define your own pipeline.
 
+Cloud DataFlow: Serverless, fully managed for data preprocessing. 
+
+Define Apache beam pipleine:
 read(from gs) --> map(),group(),flatmap ---> write to gs. 
+beam have many io connector.
 
 sort of pipeline in beam. Have many connector for different sources (bigquery,file etc) Cloud dataflow: execute the code written in apache beam.serverless fully managed service support java/python. 
 
@@ -170,5 +177,74 @@ How to run the pipeline
 
 ![image](https://user-images.githubusercontent.com/1594001/132077689-a5aa8e4d-131e-4913-8e50-757775ec41bf.png)
 
+beam and dataflow pipeline example notebook:
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/preproc.ipynb
+
+once you run the beam pipeline in cloud dataflow, it will generate two csv (train.csv,test.csv). These are prepossed and contain the entire dataset.
+
+Training in cloud (CMLE)
+------------------------
+Do training using "cloud ml engine" : execution environment for ml jobs.
+
+Two options:
+1. Package your file in python module. 
+2. Or make a container (docker). Making docker is bit more complex but gives you ways in which you can manage your own (ai) package dependencies.
+
+Making python package:
+task.py : code to parse command line args. calls the code in model.py
+model.py: tensorflow code. Should have all code for train_and_evaluate fucntion as well as serving_input_fn
+
+Note: The tensor model should be in package before running (train or prediction) in CMLE "cloud ml engine"
+
+First train locally in small subset use --train_example=<small_number> to make sure setup is corect, than in cloud to speed up.
+
+Local training: package trainer.task
+python -m trainer.task (parameters) // Train locally in standalone mode
+
+// TRAIN IN CLOUD (Batch Job Launch)
+gcloud ai-platfrom jobs submit training $JOBNAME --module=trainer.task (otherargs)
+
+gcloud ai-platform jobs submit prediction
+
+// PREDICT IN CLOUD (locally)
+gcloud ai-platform local predict --model-dir=$MODEL_LOCATION --json-instances=inputs.json
+
+![image](https://user-images.githubusercontent.com/1594001/138511249-6a62e21b-179b-43a1-bb23-ba72e81370db.png)
+
+![image](https://user-images.githubusercontent.com/1594001/138511167-791ff584-08f6-4b5e-8f34-ef512ee92aaa.png)
+
+Make all the configuration and (hyperparams) as command line args, so that hyperparameter tuning is easy later.
+
+Use tensorboard to monitor the training job
+make sure your 
+-loss converges
+-eval does not goes up
+- layers does not die.
+
+Training and deploy in cloud notebook:
+---------------------------------------
+
+Training locally and in cloud notebook. (Use python module or docker.)
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/train_keras_ai_platform_babyweight.ipynb
+
+
+Deployment of model in Cloud AI Platfrom.
+In this case you will be able to deploy and serve model. REST endpoint is created.
+
+gcloud ai-platform models create ${MODEL_NAME} --regions ${REGION}
+
+REST endpoint 
+api = "https://ml.googleapis.com/v1/projects/{}/models/{}/versions/{}:predict" \
+         .format(PROJECT, MODEL_NAME, MODEL_VERSION)
+
+See the notebook for model deployment and serving as rest endpoint
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/deploy_keras_ai_platform_babyweight.ipynb
+
+
+Deployment. Use flask and app engine to deploy model and get back prediction. REST API
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/serving_babyweight.ipynb
 
 
