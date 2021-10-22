@@ -205,6 +205,7 @@ python -m trainer.task (parameters) // Train locally in standalone mode
 // TRAIN IN CLOUD (Batch Job Launch)
 gcloud ai-platfrom jobs submit training $JOBNAME --module=trainer.task (otherargs)
 
+// Batch prediction.
 gcloud ai-platform jobs submit prediction
 
 // PREDICT IN CLOUD (locally)
@@ -216,21 +217,24 @@ gcloud ai-platform local predict --model-dir=$MODEL_LOCATION --json-instances=in
 
 Make all the configuration and (hyperparams) as command line args, so that hyperparameter tuning is easy later.
 
-Use tensorboard to monitor the training job
-make sure your 
--loss converges
--eval does not goes up
+Use tensorboard to monitor the training job make sure your 
+- loss converges
+- eval does not goes up
 - layers does not die.
 
-Training and deploy in cloud notebook:
----------------------------------------
+
 
 Training locally and in cloud notebook. (Use python module or docker.)
+
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/train_keras_ai_platform_babyweight.ipynb
 
 
+Deploy in cloud (Create REST end point) 
+----------------------
+
 Deployment of model in Cloud AI Platfrom.
-In this case you will be able to deploy and serve model. REST endpoint is created.
+
+In this case you will be able to deploy and serve model. REST endpoint is created in google cloud.
 
 gcloud ai-platform models create ${MODEL_NAME} --regions ${REGION}
 
@@ -243,7 +247,7 @@ See the notebook for model deployment and serving as rest endpoint
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/deploy_keras_ai_platform_babyweight.ipynb
 
 
-Deployment. Use flask and app engine to deploy model and get back prediction. REST API
+flask + app engine to deploy model and get back prediction. REST API
 
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/serving_babyweight.ipynb
 
