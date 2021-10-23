@@ -185,7 +185,7 @@ once you run the beam pipeline in cloud dataflow, it will generate two csv (trai
 
 Training in cloud (CMLE)
 ------------------------
-Do training using "cloud ml engine" : execution environment for ml jobs.
+Do training using "cloud ml engine" : CMLE is execution environment for ml jobs.
 
 Two options:
 1. Package your file in python module. 
@@ -197,7 +197,10 @@ model.py: tensorflow code. Should have all code for train_and_evaluate fucntion 
 
 Note: The tensor model should be in package before running (train or prediction) in CMLE "cloud ml engine"
 
-First train locally in small subset use --train_example=<small_number> to make sure setup is corect, than in cloud to speed up.
+At the end of training the model will be dumped to google cloud storage. The serving function need to be specified during export.(exporter parameters)
+tf.estimator.LatestExporter() create exporter object.
+
+First train locally in small subset use --train_example=<small_number> to make sure setup is corect, than in cloud to speed up training process.
 
 Local training: package trainer.task
 python -m trainer.task (parameters) // Train locally in standalone mode
@@ -222,21 +225,36 @@ Use tensorboard to monitor the training job make sure your
 - eval does not goes up
 - layers does not die.
 
-
-
 Training locally and in cloud notebook. (Use python module or docker.)
 
+Kera model training:
+
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/train_keras_ai_platform_babyweight.ipynb
+
+tf model training: (much similer than kera's model but concept are similar)
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/06_structured/5_train.ipynb
 
 
 Deploy in cloud (Create REST end point) 
 ----------------------
 
-Deployment of model in Cloud AI Platfrom.
+Notice you can't use the train function for serving as for serving the input can be different (json not csv), their might be smaller subset of features. Also the labels will not be there in the serving function.
+create a serving function with preprocessing logic (encoding etc). serving_input_fn()
 
-In this case you will be able to deploy and serve model. REST endpoint is created in google cloud.
+Deployment of model in Cloud AI Platfrom: All you need is the location of your trained model director.
+
+In this case you will be able to deploy and serve model. REST endpoint is created in google cloud. You need to do two commands:
 
 gcloud ai-platform models create ${MODEL_NAME} --regions ${REGION}
+
+gcloud ai-platform versions create {MODEL_VERSION} --model ${MODEL_NAME} --orgin {MODEL_LOCATION}
+
+Go to gcp console and check your model deployed in UI.
+
+use 
+
+api = discovery.build()
 
 REST endpoint 
 api = "https://ml.googleapis.com/v1/projects/{}/models/{}/versions/{}:predict" \
@@ -245,6 +263,10 @@ api = "https://ml.googleapis.com/v1/projects/{}/models/{}/versions/{}:predict" \
 See the notebook for model deployment and serving as rest endpoint
 
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/deploy_keras_ai_platform_babyweight.ipynb
+
+TF deploy simple 2 command .
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/06_structured/6_deploy.ipynb
 
 
 flask + app engine to deploy model and get back prediction. REST API
