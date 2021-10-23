@@ -268,6 +268,8 @@ TF deploy simple 2 command .
 
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/06_structured/6_deploy.ipynb
 
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/end_to_end_ml/solutions/deploy_keras_ai_platform_babyweight.ipynb
+
 
 flask + app engine to deploy model and get back prediction. REST API
 
