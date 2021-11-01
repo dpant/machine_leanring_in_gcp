@@ -61,11 +61,44 @@ Three reference architecures of dynamic training :
 ![image](https://user-images.githubusercontent.com/1594001/138536969-6d25f408-0de6-4c32-8e7a-ab0551468912.png)
 
 
-
 ### Serving architecure.
 static serving vs dynamic serving.
-Minimize average latency.
-Use cache ===> Static serving.
+
+Minimize average latency. Use static serving (plain lookup table). Use cache ===> Static serving.
+
+Dynamic serving : compute label on demand (CPU intensive) and gives high(variable) latency.
+
+See what is the cost of: (RAM) storage, Latency and CPU.
+
+Know your characterstics of request. namely peakedness and cardinality of the requests.
+
+if cardinality is very low you can use table and use static serving.
+
+![image](https://user-images.githubusercontent.com/1594001/138538594-51e1c24e-e0aa-40e5-96eb-ed375cf8c7f6.png)
+
+eg: 
+
+Spam email detection : high cardinality ==> dynamic serving
+
+android voice to text: dynamic or hybrid
+
+Shopping ad conversation: static. (run batch script in regular interval to update the cache)
+
+Vertex AI platform.
+------------
+Full support for all AI task.
+
+Dataset are stored in cloud storages.
+
+Use notebook to develop and deployment your model. 
+
+Use automl or custom training. 
+
+
+
+
+
+
 
 
 
