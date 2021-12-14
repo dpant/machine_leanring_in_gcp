@@ -182,31 +182,33 @@ tfdv.display_anomalies(anomalies)
 
 Use domain knowledge to either add features values to schema or make exception
 
-# Relax the minimum fraction of values that must come from the domain for feature company.
+Relax the minimum fraction of values that must come from the domain for feature company.
 company = tfdv.get_feature(schema, 'company')
 company.distribution_constraints.min_domain_mass = 0.9
 
-# Add new value to the domain of feature payment_type.
+Add new value to the domain of feature payment_type.
 payment_type_domain = tfdv.get_domain(schema, 'payment_type')
 payment_type_domain.value.append('Prcard')
 
-# Validate eval stats after updating the schema 
+Validate eval stats after updating the schema 
 updated_anomalies = tfdv.validate_statistics(eval_stats, schema)
 tfdv.display_anomalies(updated_anomalies)
 
-Detect drift and skew (schema,feature (mainly incorrect encoding), distribution skew)
+### Detect drift and skew (schema,feature (mainly incorrect encoding), distribution skew)
 
-# Add skew comparator for 'payment_type' feature.
+Add skew comparator for 'payment_type' feature.
 payment_type = tfdv.get_feature(schema, 'payment_type')
+
 payment_type.skew_comparator.infinity_norm.threshold = 0.01
 
-# Add drift comparator for 'company' feature.
+Add drift comparator for 'company' feature.
 company=tfdv.get_feature(schema, 'company')
+
 company.drift_comparator.infinity_norm.threshold = 0.001
 
-# TODO
 skew_anomalies = tfdv.validate_statistics(train_stats, schema,
                                           previous_statistics=eval_stats,
                                           serving_statistics=serving_stats)
 
 tfdv.display_anomalies(skew_anomalies)
+
