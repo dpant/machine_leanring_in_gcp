@@ -212,3 +212,73 @@ skew_anomalies = tfdv.validate_statistics(train_stats, schema,
 
 tfdv.display_anomalies(skew_anomalies)
 
+## Distributed training using tensorflow.
+Distributed training needed due to 
+
+A) large dataset
+B) complex models with lot of parameters
+
+Tensorflow provide construct to do distributed training.
+Host: MultiCore CPU, GPU1.... GPUN
+
+Synchronization stagergy.
+
+
+*Synchronous update*
+
+![image](https://user-images.githubusercontent.com/1594001/146607332-23dee98a-4afa-4fbd-a015-b1dc4c40a0d0.png)
+
+Data Split for minibatch sent to each worker
+  Each model (host) run gradient decent.
+  Send calculated gradient to other hosts.
+  All workers update model
+  loop.
+
+Use for dense model.
+
+*Asynchronous update*
+
+![image](https://user-images.githubusercontent.com/1594001/146607655-26077d8a-845f-42af-94a9-f69840928e56.png)
+
+- Workers get out of sync and can delay convergence
++ More scalable. 
+
+Multi Host is desired for complex models or large dataset.
+
+Usually 2 startergy are 
+
+Data Parallelism (split data and feed to same model running in different hosts)
+- Each host run exact same model and have copy of entire model and parameter in its local memory.
+- Run Gradient decent iteration and do model update (in each host) after each iterations (Sync or Async communication after each iteration)
+
+Model Parallelism: (split model feed same data to each host)
+- Same data but split model in different GPU (host)
+- Each GPU end up having few layers.
+- higher corrdination (more network bandwidth) needed between each GPU/hosts.
+
+Hybrid (combine Dataparallelism + model parallelism)
+
+tf.distribute.\*statergy
+----
+MirroredStatergy (single host can be multi GPU)
+
+![image](https://user-images.githubusercontent.com/1594001/146607257-76ba1bbf-f298-43e7-a1ba-1c8c584b37dc.png)
+
+MultiWorkerMirroredStatergy (Multi Host)
+
+![image](https://user-images.githubusercontent.com/1594001/146608249-6838bdb2-27f1-42a9-9dee-3a487c66ed88.png)
+
+![image](https://user-images.githubusercontent.com/1594001/146608368-825bc8c0-b09f-4bc6-96cc-33b39742f9fd.png)
+
+Two type of workers: 
+"chief worker" (checkpointing and tensorboard file task) and "other workers"
+
+TPUStatergy (TPU used)
+
+![image](https://user-images.githubusercontent.com/1594001/146608640-88623c99-dfce-4643-889c-86b65d782057.png)
+
+
+Single machine but use TPU core.
+
+
+
