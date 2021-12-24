@@ -281,17 +281,34 @@ Single machine but use TPU core.
 
 ## All about tf Distributed training in Keras.
 
+https://www.tensorflow.org/guide/distributed_training
+
+Examples
+
+https://colab.sandbox.google.com/github/tensorflow/docs/blob/master/site/en/guide/distributed_training.ipynb#scrollTo=QGX_QAEtFQSv
+
+
 tensorflow make distributed training easy ( with minimal changes). You need to choose your statergy and write your model in statergy scope.
 
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/production_ml/solutions/keras.ipynb
 
-MPI (one way tesnsorflow uses for communication).
-
-https://mpitutorial.com/tutorials/
+NCCL (Nvidia collective communication library) is the underlying mechanism for communication for tensforflow. The construct for NCCL is very similar to MPI https://mpitutorial.com/tutorials/
 
 https://www.tensorflow.org/extras/tensorflow-whitepaper2015.pdf
 
 EDA ML https://www.nextplatform.com/2020/10/29/machine-learning-for-future-system-designs/
+
+
+## Input data pipeline.
+
+tf gives many helper function to make read data (say image dataset which is usually stored in files) , compress images , list directory etc. https://www.tensorflow.org/api_docs/python/tf/data/Dataset
+
+Use the following notebook to understand the tensorflow data pipeline 
+
+convert images to tfrecord for faster io and compression.
+
+https://colab.sandbox.google.com/github/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/production_ml/solutions/tpu_speed_data_pipelines.ipynb#scrollTo=Lz1Zknfk4qCx
+
 
 
 
