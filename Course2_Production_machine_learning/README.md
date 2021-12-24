@@ -275,10 +275,25 @@ Two type of workers:
 
 TPUStatergy (TPU used)
 
+Single machine but use TPU core.
+
 ![image](https://user-images.githubusercontent.com/1594001/146608640-88623c99-dfce-4643-889c-86b65d782057.png)
 
+## All about tf Distributed training in Keras.
 
-Single machine but use TPU core.
+tensorflow make distributed training easy ( with minimal changes). You need to choose your statergy and write your model in statergy scope.
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/production_ml/solutions/keras.ipynb
+
+MPI (one way tesnsorflow uses for communication).
+
+https://mpitutorial.com/tutorials/
+
+https://www.tensorflow.org/extras/tensorflow-whitepaper2015.pdf
+
+EDA ML https://www.nextplatform.com/2020/10/29/machine-learning-for-future-system-designs/
+
+
 
 
 
