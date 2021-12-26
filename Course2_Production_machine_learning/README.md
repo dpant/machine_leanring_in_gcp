@@ -310,7 +310,23 @@ convert images to tfrecord for faster io and compression.
 https://colab.sandbox.google.com/github/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/production_ml/solutions/tpu_speed_data_pipelines.ipynb#scrollTo=Lz1Zknfk4qCx
 
 
+### Inference 
+Usually you have to consider tradeoff between QPS(throughput), latency, cost
+
+![image](https://user-images.githubusercontent.com/1594001/147362687-6a78d4bb-161a-4f30-a996-7221fc1631bc.png)
 
 
+# Week 3
+Hybrid cloud: mixure of on primise, GCP, AWS , edge
 
+Use Kubeflow to make your environment portable. Kubeflow sits on top of kubernetes and provide a GCP Vertex AI like UI and services. 
 
+Also for edge you will you tensorflow lite (library at mobile IOS/android etc) to do inference in edge. You can also do training of user specific data at edge (federed learning). Do quantization for edge/mobile model.
+
+Dont send the full image to cloud instead extract label/feature at the edge (mobile) and only send features/labels to clould.
+This save bandwidth.
+
+A typical ML system (it not just training step !!!). How do you move so many components to cloud? Kubeflow!
+Kubeflow is not serverless and you need to do clustermanagement. But it makes the migration to cloud a breeze.
+
+![image](https://user-images.githubusercontent.com/1594001/147363248-a0514177-f682-4df2-87f1-fcfe95c74544.png)
