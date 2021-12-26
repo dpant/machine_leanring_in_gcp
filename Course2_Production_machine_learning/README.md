@@ -330,3 +330,8 @@ A typical ML system (it not just training step !!!). How do you move so many com
 Kubeflow is not serverless and you need to do clustermanagement. But it makes the migration to cloud a breeze.
 
 ![image](https://user-images.githubusercontent.com/1594001/147363248-a0514177-f682-4df2-87f1-fcfe95c74544.png)
+
+Quiz Q&A
+
+https://d18ky98rnyall9.cloudfront.net/TMlkqqqySB6JZKqqsugenQ_fa21c56934f640ca985dfe86609f6aa1_ALL-QUIZ-QUESTIONS-and-ANSWERS.pdf?Expires=1640649600&Signature=EsjdPY2mE2trZZxizqd~XUJo1WOhLRRxh4U9hOco0U95ib3UPsGf7s0CPC9MmwxXeLt1Jdzt7liTHYLieVW9x6Ezdp3X7SKvEOW7~XrTgoO-37Hkaq396JFtEUMTw1EKCTcG5O3rblqf-VYQ5mKKVEKVjrZnPOQ1GiACTtuzPu8_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A
+
