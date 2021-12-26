@@ -319,7 +319,7 @@ Usually you have to consider tradeoff between QPS(throughput), latency, cost
 # Week 3
 Hybrid cloud: mixure of on primise, GCP, AWS , edge
 
-Use Kubeflow to make your environment portable. Kubeflow sits on top of kubernetes and provide a GCP Vertex AI like UI and services. 
+Use Kubeflow to make your environment portable. Kubeflow sits on top of kubernetes and provide a GCP Vertex AI like UI and services. More on Kubeflow at https://www.youtube.com/hashtag/kubeflow101
 
 Also for edge you will you tensorflow lite (library at mobile IOS/android etc) to do inference in edge. You can also do training of user specific data at edge (federed learning). Do quantization for edge/mobile model.
 
