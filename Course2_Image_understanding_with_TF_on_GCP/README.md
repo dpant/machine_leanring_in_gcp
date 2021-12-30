@@ -31,7 +31,14 @@ https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses
 
 OR
 
-B) Use transfer learning.
+B) Use transfer learning:
+
+In a Neural network last few (dense) layers are task dependent. So in transfer learing cut them off and retrain.
+
+Video going through the transfer learning in GCP: Use dataflow api to preprocess data (read csv, do preprocessing and write tfrecord for faster read by subsequent steps). Use ml-engine or ai-platform for training and test. All commands to train and test are listed in video.
+
+https://www.coursera.org/learn/image-understanding-tensorflow-gcp/lecture/m2mfk/lab-solution-implementing-transfer-learning
+
 
 
 
