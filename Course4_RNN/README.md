@@ -61,6 +61,45 @@ Which filter is more specific? longer filter are more specific.
 ![image](https://user-images.githubusercontent.com/1594001/147989382-c1cf5cbf-be7f-4f1e-95e1-078917ac5dae.png)
 
 
+CNN performed worst than DNN in this case. Why? variable length problem.
+
+## variable length problem. (CNN/DNN)
+
+Sequence domain model should be robust for the length of the pattern.
+
+handling variable length input or output
+
+How can you solve variable length?
+
+Cutting and padding:
+
+- While training feed fixed size (windowed) inputs.
+- Let say during prediction you just have less the window size of datapoints? you will pad it. This will loose some of the weights during prediction (set them to 0) 
+- You can potentially workaround this by using smallest size window you will see in prediction time. But this will again limit your model capability as it is seeing smaller window at a time.
+
+Bagging 
+Take avg of each characterstics. "bags of words"
+Throws away order. The cat sat on the mat === the mat sat on the cat.
+
+### RNN
+Handles variable length sequence.
+
+![image](https://user-images.githubusercontent.com/1594001/148111769-ad4d6267-a043-4c96-8ad7-8f28d26a0e95.png)
+
+RNN is good sequence feature extractor.
+RNN compact previous input.
+RNN output is not just a class label, it is a sequence.
+https://screenshot.googleplex.com/BqqXhZMKLRUMXRt
+
+Hard to maintain long term dependency. (due to Vanishing or exploding gradient). None of the prevous techniques like RELU, random weight init (xiavior etc) , L1,L2, gradient clipping but none of these mitigate the vanishing gradient. Architecure solution fix the problem (LSTM...)
+
+https://screenshot.googleplex.com/7Kkhr7WLJpmycFN
+
+# LSTM , GRU
+
+
+
+
 
 
 
