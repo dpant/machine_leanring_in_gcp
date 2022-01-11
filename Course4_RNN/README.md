@@ -221,6 +221,7 @@ Embeddeding is learned by dense layer (embedding layer) to our network whose wid
 
 Kera's API is simpler to use than tensforflow and is becoming the defaco for ML model. Keras does not support distributed training. use keras.estimator.model_to_estimator() to convert to tensorflow model.
 
+CNN model are good to analyze group of words. In image classification each pixel is represented by three prixel (R,G,B) ; In text classification each word is represented by the number of dim in embedding space. 
 
 
 
