@@ -198,9 +198,9 @@ N_FORWARD: label N step ahead.
 
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/09_sequence/temperatures.ipynb
 
-## Week2
+## Week2 (Text classification)
 
-Text classification. (its a sequence as sequence is important in text)
+Text classification. (its a sequence modeling task as sequence is important in text)
 
 Eg: Email spam/non -spam. Customer classification, style classification, Predict publisher.
 
@@ -217,11 +217,60 @@ Text --> number --> one hot (sparse problem)
 
 Embeddeding is learned by dense layer (embedding layer) to our network whose width is much smaller than our one hot encoding . it compress the one hot to floating represenation which capture meaning.
 
+
+CNN model are good to analyze "group of adjecant words". In image classification each pixel is represented by three prixel (R,G,B) ; In text classification each word is represented by the number of dim in embedding space.
+
+Kera's API is simpler to use than tensforflow and is becoming the defaco for ML model. Keras does not support distributed training. use keras.estimator.model_to_estimator() to convert to and estimator (tensorflow model).
+
 ![image](https://user-images.githubusercontent.com/1594001/148152472-4d18eeb3-a92b-4acc-b89f-162bb5657b54.png)
 
-Kera's API is simpler to use than tensforflow and is becoming the defaco for ML model. Keras does not support distributed training. use keras.estimator.model_to_estimator() to convert to tensorflow model.
+Lab: (Text classification using Keras). Given article text (web article) try to predict its publisher [github/techcrunch/nytimes]
 
-CNN model are good to analyze group of words. In image classification each pixel is represented by three prixel (R,G,B) ; In text classification each word is represented by the number of dim in embedding space. 
+![image](https://user-images.githubusercontent.com/1594001/149160186-cae5dec2-865f-49c7-b82f-0b81047a3406.png)
+
+Infra/Code to train and predict on cloud 
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/09_sequence_keras/text_classification.ipynb
+
+(ML model) Uses non tensorflow native code for preprocessing. Later this is replaced by (much complex) tensorflow native code.
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/09_sequence_keras/txtclsmodel/trainer/model.py
+
+Pretrain embedding will converge to roughly same accuracy much quickly. (save time and money)
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/text_classification/solutions/keras_for_text_classification.ipynb
+
+Model Rest API: In above lab Preprocessing done in python (keras) fucntion not in tensorflow
+
+![image](https://user-images.githubusercontent.com/1594001/149167440-4e32d952-89e1-4f8d-b506-2849fe408e98.png)
+
+Python (Keras) function can't be embedded in TF graph so can't be called in the serving function . The preprocessing need to be handled by client , which must be identical to to the training preprocessing (otherwise training serving skew). This is messy.
+One other way is to do the preprocessing during server side using a separate process which do the conversion of text to integers(tokens). This is however non portable if you choose to move your code to client entirely.
+
+Refactor the python code(keras) to use the native tensorflow.
+
+![image](https://user-images.githubusercontent.com/1594001/149168193-ce6ac226-67a6-4e3c-b6b7-c55cb75a4b3c.png)
+
+Notice this is code with native tensorflow preprocessing.
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/09_sequence_keras/txtclsmodel/trainer/model_native.py
+
+Summary:
+Find a meaningful represeantation encoding is key. One hot is not ideal as it does not capture meaningful representation of words. and it is sparsity kills the gradient in the network. Use embedding layer  to improve the accuracy (rather than using one hot encoding). Next topic talks about pretrained word embedding.
+
+### Word embedding.
+Using embedding layer for text task is good but we might not have enough label data. Many practioner uses pretrained word embedding: word2vec or Glove!
+
+How do you find a good embedding which capture closeness of words in their encoding?
+
+1. Ask human raters to rate words on some predefined dimentions (say 50 dims) and average their rating on those dimentions. This is costly to do. in 1950 physcologist tried this. Hard to scale
+2. Meaning of words can be find in their usage (distributional hypothesis)
+    3. Latent semantic analysis: term document matrix
+    4.   
+
+
+
+
 
 
 
