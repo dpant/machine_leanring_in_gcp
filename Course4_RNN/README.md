@@ -240,11 +240,15 @@ Pretrain embedding will converge to roughly same accuracy much quickly. (save ti
 
 https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/text_classification/solutions/keras_for_text_classification.ipynb
 
-Model Rest API: In above lab Preprocessing done in python (keras) fucntion not in tensorflow
+
+Model Rest API: 
+-----
+In above lab Preprocessing done in python (keras) fucntion not in tensorflow
 
 ![image](https://user-images.githubusercontent.com/1594001/149167440-4e32d952-89e1-4f8d-b506-2849fe408e98.png)
 
 Python (Keras) function can't be embedded in TF graph so can't be called in the serving function . The preprocessing need to be handled by client , which must be identical to to the training preprocessing (otherwise training serving skew). This is messy.
+
 One other way is to do the preprocessing during server side using a separate process which do the conversion of text to integers(tokens). This is however non portable if you choose to move your code to client entirely.
 
 Refactor the python code(keras) to use the native tensorflow.
@@ -259,21 +263,104 @@ Summary:
 Find a meaningful represeantation encoding is key. One hot is not ideal as it does not capture meaningful representation of words. and it is sparsity kills the gradient in the network. Use embedding layer  to improve the accuracy (rather than using one hot encoding). Next topic talks about pretrained word embedding.
 
 ### Word embedding.
+
 Using embedding layer for text task is good but we might not have enough label data. Many practioner uses pretrained word embedding: word2vec or Glove!
+
+# historic (statistical) methods
 
 How do you find a good embedding which capture closeness of words in their encoding?
 
-1. Ask human raters to rate words on some predefined dimentions (say 50 dims) and average their rating on those dimentions. This is costly to do. in 1950 physcologist tried this. Hard to scale
+1. Ask human raters to rate words on some predefined dimentions (say 50 dims) and average their rating on those dimentions. This is costly to do. in 1950 physcologist tried this. Costly and hard to scale
 2. Meaning of words can be find in their usage (distributional hypothesis)
-    3. Latent semantic analysis: term document matrix
-    4.   
+    *. Latent semantic analysis: term document matrix. I.e which terms comes together in a document and do matrix factorization to compact the representation.
+    *. Or use term-term matrix. # of times the two words co-occur. Finding this by sliding the (fixed size say 20) window over to doc 
+
+![image](https://user-images.githubusercontent.com/1594001/149644505-c4cd6686-ecec-449f-b537-0d58ff6fad51.png)
+
+One approach is to take the term vector as think it as a word embedding. But this is usually of poor quality. depend on the document set size of these vector grows with the # of document you have in your corpus. This will be unsuabe for large document/term set.
+
+One need higher quality and compact representation of words. Use matrix factorization to create two matrix which canas lower dims representation of two domains terms(words) and documents. Multiplying these to matrix will result in approximation of larger matrix.(difference is as small as possible , reconstruction error). Matrix factorization is runtime expensive quardratic.
+
+![image](https://user-images.githubusercontent.com/1594001/149644625-3ceae368-3450-4316-98c0-70e498d4b025.png)
 
 
+![image](https://user-images.githubusercontent.com/1594001/149644677-64d772c8-ccd3-40db-82a2-8cfbed11bd97.png)
 
 
+# Modern way to construction of word embedding
+
+Trained on wikipedia. (Word2vec or Glove embedding) , can be used for general purpose transfer learning if your task vocab is similar to what is captured in wikipedia.
+
+Word2Vec
+-----
+Context window: size of the window on one training example.
+Central word is the word which is considered as label
+Word surrounding it is considered as positive words. all other words are negative word.
+Train a neural network. How to speed up softmax calculations? only take subset sample of negative words for softmax caluclation. Talking all words into the calculation will slowdown the softmax calculation. 
+
+![image](https://user-images.githubusercontent.com/1594001/149644757-f298eb28-ffe1-44ff-a03e-9be1ec2a37a6.png)
+
+![image](https://user-images.githubusercontent.com/1594001/149644816-51a2acad-4aca-465c-8bda-6b6b81cac260.png)
+
+Word2vec embedding are composable. combining two embedding with + will give you somehting meaningful.
+
+![image](https://user-images.githubusercontent.com/1594001/149645666-5dad8c3c-372e-4efc-9127-116f36c9e708.png)
+
+## Glove embedding
+
+Apply same word2vec neural network architecure but train on the term-document matrix. Don't take window take the entire document. 
+
+![image](https://user-images.githubusercontent.com/1594001/149645713-e795cf00-d5e8-4292-9165-3a4b659b572d.png)
+
+loss function: is bit complicated in Glove embedeeding.
+               
+# Tensorflow hub
+
+Adding pretrained model to your neural network. Use tensorflow hub is library for reusable components (module). These graphs(subgraph) can be added to your tensoflow graph.
+
+![image](https://user-images.githubusercontent.com/1594001/149645776-bba538f9-a50c-4ccd-bbc7-69fb813088a6.png)
+
+![image](https://user-images.githubusercontent.com/1594001/149645778-0e74d70e-b231-41fe-95fa-8665ba36b4eb.png)
+
+Using tensorflow hub
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/09_sequence/reusable-embeddings.ipynb
+
+# Encoder decoder model.
+
+When your output is not just one word or 1 label but a bunch of words (paragraph) or say you want to predict 10 days temp in future.
+seq2seq model : example machine translation, text summarization , question answering.
+
+First feed in the words in the sentence one by one to encoder network (one by one). It will create a representation of that sentence. later the output of that is feed to decoder will will output the translation (one word at a time)
+
+![image](https://user-images.githubusercontent.com/1594001/149646222-51757752-30b0-4025-b1e3-fed007b2dec3.png)
+
+The problem is we dont have easy solution to softmax layer.
+word probablity (on 100K english word), softmax layer output vector of 100K element and each word come with a weight of 500 weights --> 50M ways to predict one words.
+
+Use tf.nn.sampled_softmax_loss() (approx computation) to compute and return training loss value.
+
+Greedy search vs Beam search.
+
+![image](https://user-images.githubusercontent.com/1594001/149646309-b8d76ca9-0a32-4cfd-964d-bb8cce9146fc.png)
+
+tf.contrib.seq2seq.BeamSearchDecoder() consider multiple alternative at a time.
+
+# Attention network.
+In machine translation we might not have 1 to 1 correspondence of words sequences. 
+English "black cat ate the mouse" French: le chat noir a mangé la souris. cat (french:chat). Notice order is not line up.
+So we need attention network to perform well in this type of task.
 
 
+![image](https://user-images.githubusercontent.com/1594001/149646544-0e15c650-f268-4904-bce1-d88f8f9a258d.png)
+![image](https://user-images.githubusercontent.com/1594001/149646590-6daca1cc-d1b0-42d4-951f-87fd285d188f.png)
+![image](https://user-images.githubusercontent.com/1594001/149646618-a9dd916d-32eb-442d-b556-e8bef2b95f7c.png)
 
+dynamic_rnn to unroll the GRU.
+
+## Tensor2Tensor
+can solve seq2seq model.
+
+![image](https://user-images.githubusercontent.com/1594001/149646765-ca7860f7-3e73-4cc3-9b0b-b9c914bbb627.png)
 
 
 
