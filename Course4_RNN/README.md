@@ -362,6 +362,35 @@ can solve seq2seq model.
 
 ![image](https://user-images.githubusercontent.com/1594001/149646765-ca7860f7-3e73-4cc3-9b0b-b9c914bbb627.png)
 
+lab: (totally different lab pointed by coursera lab.)
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/text_classification/solutions/keras_for_text_classification.ipynb
+
+Correct notebook:
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/09_sequence/poetry.ipynb
+
+# AutoML
+
+Mainly GUI driven. Uses transfer learning. Your dataset will give you the context.
+
+Upload translated language pair --> train your model (auto ML use transfer learning) --> Evaluate. 
+
+![image](https://user-images.githubusercontent.com/1594001/149648370-0cab05ce-e30f-40a9-bc88-19a77b33a5fc.png)
+
+# Diagflow
+
+Conversation system (chatbot) is more complex than just a Question answer pair training. You need to train for entire conversation.
+Three concepts in conversation system: 
+1. Intents (Verb: open a ticket, update a ticket, etc)
+2. Entities (Object of dialog,eg noun.)
+3. Context (Keep the continutity in conversation, remeber the context of the current convesation. What is the previous question about)
+
+Creating a chatbot:
+
+This lab is total UI based in gcloud. Demo in the video below.
+
+https://www.coursera.org/learn/sequence-models-tensorflow-gcp/lecture/TIeW2/lab-solution-dialogflow
+
+
 
 
 
