@@ -2,7 +2,7 @@
 
 **Content based:** you define tags and attach tags with all your contents/items. Later you match user to the most frequently used item in "tag/category"  which he likes. You need metadata(tags etc) about your item. The main task here is to assign proper tags to the content and users.
 
-**Colloborative filtering*:**
+**Colloborative filtering***
 you learn about item and user similarlity with the ratings data (watched,commented,star ratings).
 This matix is very large and sparse.idea is to factorize it to store the approximate factors (for memory effeciency). User factor , item factor
 
