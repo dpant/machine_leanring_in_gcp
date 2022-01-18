@@ -80,3 +80,73 @@ generate a model (NN) to predict the explicity rating and feed it to the recomme
 
 ![image](https://user-images.githubusercontent.com/1594001/149676580-2ed549d3-f6df-4c67-b0e8-104e654571ca.png)
 
+
+# Content based recommendation systems:
+
+Use item features + user past likes to recommend new items. does not take into account other users preferences.
+Check what movies does the user rate highly and recommend one which are more similar to the highly rated movies/item.
+
+Cold start?
+
+How to do you measure similarity?
+
+Consider different themes / geners and see the overlap
+if two user like same movies they are similar.
+
+Get embedding of user/item and get the vector representation. and then use dot product or cosine similarity between them.
+
+![image](https://user-images.githubusercontent.com/1594001/149824856-3d05f32c-0668-4cfd-8673-fe2e28b325b8.png)
+
+
+![image](https://user-images.githubusercontent.com/1594001/149824875-e023a5a3-0b20-4bc2-9086-65f8cc89cd1d.png)
+
+Building user vector
+---
+How do you find the embedding of 
+User rating and item features given.
+
+![image](https://user-images.githubusercontent.com/1594001/149825169-064294e0-54b5-4f78-bc65-499e165ef468.png)
+
+Scale the movie feature matrix by user ratings.sum acorss the feature column and normalize
+
+![image](https://user-images.githubusercontent.com/1594001/149825282-e0295df0-01eb-4ac0-b2ea-9214d81be069.png)
+
+![image](https://user-images.githubusercontent.com/1594001/149825338-3930d045-7c15-4e77-87f9-7c0d8891b53a.png)
+
+# Making a recommendation
+use dot product to measure the similarliy of unrated movies. multiple the user vector to the movie feature matix
+
+![image](https://user-images.githubusercontent.com/1594001/149827740-ca9fa0f7-8835-41ad-9628-9608d70ab672.png)
+
+Make the value by sorting to make recommendation.
+
+# How to scale this for multiple user at a time?
+
+![image](https://user-images.githubusercontent.com/1594001/149827970-ca747135-4d37-4541-b61d-24c72b8d1596.png)
+
+![image](https://user-images.githubusercontent.com/1594001/149828015-62aac2d8-c7c6-4c42-9c6a-0b4f4f903a19.png)
+
+Get weighted user matrix for all users. stack them
+
+![image](https://user-images.githubusercontent.com/1594001/149828103-96094258-ea23-46eb-9a27-7a7714029f52.png)
+
+![image](https://user-images.githubusercontent.com/1594001/149828207-fc17ce2b-fbce-4ed0-b89b-e3cd644cd383.png)
+
+
+![image](https://user-images.githubusercontent.com/1594001/149828559-0cbe8d7c-7107-4d0c-9e07-fc1e4f0504b8.png)
+
+
+difficult to expand intreast of user using content based recommendation systems. If use have not rated some of the features (say generas) of movies it will never show up in the list. 
+
+lab: content based recommendation system using low level tf functions.
+https://www.coursera.org/learn/recommendation-models-gcp/lecture/NfhNj/lab-solution-create-a-content-based-recommendation-system
+
+
+
+# Using neural network to get conent based recommendation system.
+
+![image](https://user-images.githubusercontent.com/1594001/149829785-5b65294e-cb31-450b-b7cb-d048cf9df2f4.png)
+
+
+
+
