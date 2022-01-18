@@ -59,7 +59,11 @@ Hybrid:
 
 the hybrid model will use a NN to combine all the 3 models.
 
-Neural network based recommendation system.
+## Neural network based recommendation system.
+
+
+![image](https://user-images.githubusercontent.com/1594001/149829785-5b65294e-cb31-450b-b7cb-d048cf9df2f4.png)
+
 
 ![image](https://user-images.githubusercontent.com/1594001/149676345-492677cb-7947-488d-85c4-4052b826b097.png)
 
@@ -140,6 +144,9 @@ difficult to expand intreast of user using content based recommendation systems.
 
 lab: content based recommendation system using low level tf functions.
 https://www.coursera.org/learn/recommendation-models-gcp/lecture/NfhNj/lab-solution-create-a-content-based-recommendation-system
+
+Lab git link:
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/10_recommend/content_based_by_hand.ipynb
 
 
 
