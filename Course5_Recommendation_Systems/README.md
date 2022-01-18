@@ -152,7 +152,28 @@ https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses
 
 # Using neural network to get conent based recommendation system.
 
+Consider user feature and movie features.
+
 ![image](https://user-images.githubusercontent.com/1594001/149829785-5b65294e-cb31-450b-b7cb-d048cf9df2f4.png)
+
+kurier.at recommendation system.
+
+![image](https://user-images.githubusercontent.com/1594001/150024981-60b27ccf-ea66-471f-b493-937db91402cc.png)
+
+visitor_id: depend of your browser id etc. Not used in model.
+content_id: article id. categorical column. with hash bucket. categorical_column_with_hash_bucket()
+category column: categorical_column_with_vacabulary_list()
+title: use tf hub to embed current article
+author: categorical_column_with_hash_bucket
+months_since_epoch: numeric_column()
+
+![image](https://user-images.githubusercontent.com/1594001/150027323-d4465489-2c1b-4fda-9ebb-8539dc122c7a.png)
+
+Walkthrough of lab:
+
+https://www.coursera.org/learn/recommendation-models-gcp/lecture/tWx6t/lab-solution-create-a-content-based-recommendation-system-using-a-neural-network
+
+reaches 30% of accuracy after training.
 
 
 
