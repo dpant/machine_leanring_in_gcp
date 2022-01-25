@@ -247,6 +247,39 @@ ALS algorithm: (learn the details)
 
 Notice the alternating loop inside. fix u find v. fix v find u.
 
+## How to prepare the input data for ALS factorization
+Data is usually represented as table not matrix ( as matrix is too sparse)
+
+WALS requires the ratings matrix to be really matrix entries so you will have to map id strings to be 0,1,2....
+
+![image](https://user-images.githubusercontent.com/1594001/150918443-ad85692e-c8d2-4aed-b895-6118de03666d.png)
+
+![image](https://user-images.githubusercontent.com/1594001/150918394-73c562ce-fe0d-4bfb-bc70-b98777af6711.png)
+
+session_duration is implicit feedback. (longer session mean user like the videos). Notice the visitor id and content id are just large string not continous index of matrix.
+
+Also you need to have access to user input dataset (as you want to filterout existing watch history etc)
+
+![image](https://user-images.githubusercontent.com/1594001/150918666-2e919d70-6c5b-4b96-a569-202ad7854dae.png)
+
+# implementing ALS in tf
+
+preprocessing data. store sparse tensors (stored as index and values) for rows and columns.
+so key is rowid (say user), indices is kind of (column id) which is itemids and values is the rating.
+
+![image](https://user-images.githubusercontent.com/1594001/150919605-a2778798-e06d-4b96-9e8a-d505cb21579e.png)
+
+![image](https://user-images.githubusercontent.com/1594001/150920407-b2991c6c-3971-454c-888f-7428321455e1.png)
+
+
+
+Dealing with cold start problem
+=====
+Use hybrid model or a very simple flow chart.collaborative filtering is not good for cold start.
+
+![image](https://user-images.githubusercontent.com/1594001/150922629-bc25df19-1f74-4da6-bc16-dd5b17abcea1.png)
+
+https://www.coursera.org/learn/recommendation-models-gcp/lecture/KmRBf/cold-starts
 
 
 
