@@ -176,5 +176,80 @@ https://www.coursera.org/learn/recommendation-models-gcp/lecture/tWx6t/lab-solut
 reaches 30% of accuracy after training.
 
 
+# Collaborative filtering
+
+Use WALS (weighted average least square)
+
+Shortcoming of content based recommendation system: "Search local neighbourhood" stays in local neighbourhood. what if you don't have user interest.
+
+One user manifold might be small so might not have much to recommend. How about learning from other users. (this is done by collaborative filtering)
+
+Explicit feedback/ratings: (user interaction matrix)
+
+![image](https://user-images.githubusercontent.com/1594001/150899705-c10b4c82-e57a-4214-8e2f-c307c7f2e5fa.png)
+
+![image](https://user-images.githubusercontent.com/1594001/150899850-9ba9da57-e466-4933-933f-dff327cf2e82.png)
+
+We can get also implicity feedback.
+
+# embedding users and items in same space.
+
+Users and items are represented in d-dimentional embedding space. (Same embeddign space)
+
+![image](https://user-images.githubusercontent.com/1594001/150900409-bad467c4-1146-478e-8511-c5e5fa6b4577.png)
+
+How do you get the user factor embedding and item embedding.==> Use the user-item interaction matrix data.
+
+
+How to recommend?
+
+find closest movie which is not watched by taking dot product.
+
+![image](https://user-images.githubusercontent.com/1594001/150900655-68178c15-470b-4e14-a34d-9f53eda35799.png)
+
+Matrix factorization is key here as the interaction matrix is very sparse.
+
+10K movies 50 million users. 500 Billion interaction (cells in matrix). Factorization will help. If k latent feature ==> k (user + movies) {total cells}
+
+![image](https://user-images.githubusercontent.com/1594001/150901165-761d3063-69dd-422f-9337-34c026dabafc.png)
+
+Factorization approaches.
+
+![image](https://user-images.githubusercontent.com/1594001/150901487-58ef48df-30eb-48e2-aa5a-5fc343f532e9.png)
+
+Approximate way to find matrix factoring.
+
+![image](https://user-images.githubusercontent.com/1594001/150901571-61a1f64c-4f08-4b2c-9779-d4b9bc88fca7.png)
+
+How to find the minimization (squared error). "Least square error minimization problem"
+
+Use SGD? (Generalist algo to solve the minimization problems)
+Flexible,parallel (how), many iterations to converge (slow). SGD can't handle missing interaction pair of user-item.
+
+Use Alternativing least square (ALS)?
+parallalizable, can be used for only least square only (which fits our matrix factorization case), easy to handle un-observed / missign interaction pair.
+
+How to treat missing interaction data.
+SVD. unobserved pair are assigned 0 value. This is not same as missing value but like SGD, SVD can't handle missing data
+
+![image](https://user-images.githubusercontent.com/1594001/150902293-3b959d1a-7d5a-4459-804d-06138e5800ee.png)
+
+ALS:
+Can Ignore the missings values
+
+WALS: Use weights instead of 0.
+
+![image](https://user-images.githubusercontent.com/1594001/150902378-a16246ba-daf9-4f6e-bcb0-9e072faf7fae.png)
+
+ALS algorithm: (learn the details)
+
+![image](https://user-images.githubusercontent.com/1594001/150903036-3f434f00-c77e-401c-809c-9e81820b1c58.png)
+
+Notice the alternating loop inside. fix u find v. fix v find u.
+
+
+
+
+
 
 
