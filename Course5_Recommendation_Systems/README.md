@@ -1,6 +1,6 @@
 # Recommendation systems
 
-**Content based:** you define tags and attach tags with all your contents/items. Later you match user to the most frequently used item in "tag/category"  which he likes. You need metadata(tags etc) about your item. The main task here is to assign proper tags to the content and users.
+**Content based:** you define tags and attach tags with all your contents/items. Later you match user to the most frequently used item in "tag/category"  which he liked (in past). Notice we don't rely on other users interactions to recommend things to the user. It's just user interactions. You will need metadata(tags etc) about your item. The main task here is to assign proper tags to the content and users and match them. Also most of your data/metadata/tags on items is curated by experts not by users interaction with the product (This is the major difference from colloborative filtering)
 
 **Colloborative filtering**
 you learn about item and user similarlity with the ratings data (watched,commented,star ratings).
@@ -8,8 +8,8 @@ This matix is very large and sparse.idea is to factorize it to store the approxi
 
 ![image](https://user-images.githubusercontent.com/1594001/149675599-31b02b0e-34bb-4d67-9acb-71a2d11fd766.png)
 
-**hybrid model**
-content based _ collaborative filtering
+**Hybrid model**
+content based + collaborative filtering + knowledge based + .....
 Most real word system are hybrid
 ![image](https://user-images.githubusercontent.com/1594001/149675657-edce4c2f-b809-496a-a02b-043df0c71100.png)
 
@@ -17,15 +17,15 @@ You must consider how you train these systems when the ratings/history data come
 
 # Overview.
 
-Identify things which use might like. might recommend things which user have not even searched for ever. 
+Identify things which user might like. Also should be able to recommend things which user have not even searched for. 
 Take into account location,history,account preference. 
-Content discovery is a big thing.
+Content discovery is a big thing! (colloborative filtering does this very nicely)
 
 * User : helps us to discover item space. Improve decision space.
 * Content provider: Increase user engagement. Change user behaviour
 
 ![image](https://user-images.githubusercontent.com/1594001/149676003-fdb8193b-7e16-40d0-912a-ce6d23f8ceb9.png)
-
+```
 Features:
 properties of users (m/f)
 properties of house 
@@ -33,10 +33,10 @@ Previous rentals of user
 previous rentals of house
 compare similar users
 compare similar items.
-
 Targets:
 rating for unseen properties.
 next rental property.
+```
 
 Content base filtering:
 handengineering features for item and learnign how single user align
