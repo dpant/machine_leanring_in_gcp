@@ -15,7 +15,7 @@ Most real word system are hybrid
 
 You must consider how you train these systems when the ratings/history data comes in continuously.
 
-# Overview.
+# Content based recommendation systems (Overview).
 
 Identify things which user might like. Also should be able to recommend things which user have not even searched for. 
 Take into account location,history,account preference. 
@@ -39,12 +39,11 @@ next rental property.
 ```
 
 Content base filtering:
-handengineering features for item and learnign how single user align
+hand-engineering features for item and learnign how single user align
 
 ![image](https://user-images.githubusercontent.com/1594001/149676085-045214ab-3012-4c7b-a568-40f451cfc5b3.png)
 
-collaborative filtering
-dont have to rely on hand engineering 
+collaborative filtering: Dont have to rely on hand engineering item features (tags)
 
 ![image](https://user-images.githubusercontent.com/1594001/149676161-cfd5a35b-deba-46de-b3aa-059dc5395790.png)
 
@@ -87,17 +86,17 @@ generate a model (NN) to predict the explicity rating and feed it to the recomme
 
 # Content based recommendation systems:
 
-Use item features + user past likes to recommend new items. does not take into account other users preferences.
+Use item features (tag) + user past likes to recommend new items. does not take into account other users preferences/interactions.
 Check what movies does the user rate highly and recommend one which are more similar to the highly rated movies/item.
 
-Cold start?
+Cold start? if user does not have past activity hard to get the user factor.
 
 How to do you measure similarity?
 
 Consider different themes / geners and see the overlap
 if two user like same movies they are similar.
 
-Get embedding of user/item and get the vector representation. and then use dot product or cosine similarity between them.
+Get embedding of user/item and get the vector representation for user (This is entirely based on past interation of the user with the item, hence effected by cold start). Use dot product or cosine similarity between them movies(items).
 
 ![image](https://user-images.githubusercontent.com/1594001/149824856-3d05f32c-0668-4cfd-8673-fe2e28b325b8.png)
 
@@ -106,8 +105,7 @@ Get embedding of user/item and get the vector representation. and then use dot p
 
 Building user vector
 ---
-How do you find the embedding of 
-User rating and item features given.
+How do you find the embedding of User rating and item features given.
 
 ![image](https://user-images.githubusercontent.com/1594001/149825169-064294e0-54b5-4f78-bc65-499e165ef468.png)
 
@@ -227,7 +225,7 @@ Use SGD? (Generalist algo to solve the minimization problems)
 Flexible,parallel (how), many iterations to converge (slow). SGD can't handle missing interaction pair of user-item.
 
 Use Alternativing least square (ALS)?
-parallalizable, can be used for only least square only (which fits our matrix factorization case), easy to handle un-observed / missign interaction pair.
+parallalizable, can be used for only on "least square problem" (which fits our matrix factorization case), easy to handle un-observed / missign interaction pair.
 
 How to treat missing interaction data.
 SVD. unobserved pair are assigned 0 value. This is not same as missing value but like SGD, SVD can't handle missing data
@@ -358,26 +356,24 @@ User about me (do NLP and find interests)
 
 # Context aware recommendations systems (CARS)
 
+Recommendation very much dependent on context for example for a movie recommendation
+```
 mood at the time?
-
 special occasion?
-
 where are you watching it (home/theater)
+Same place different time differnt rating ==> different recommendation.
+```
+(User X items) --> ratings ( tradiational collaborative filtering recommendation systems)
 
-Same place different time differnt rating ==> differnt recommendation.
-
-User X items --> ratings ( tradiational collaburative filtering recommendation systems)
-
-Users x items x contexts --> Ratings (CARS)
+(Users x items x contexts) --> Ratings (CARS)
 
 ![image](https://user-images.githubusercontent.com/1594001/151269842-3b752b6e-c90f-442b-a1c1-ef40653def6b.png)
 
 ![image](https://user-images.githubusercontent.com/1594001/151269952-927476b3-4b6f-45dd-ba36-d02602cceffa.png)
 
-# CARS
-Pre-filtering to handle the contexual data. 
+# CARS (Pre-filtering to handle the contexual data)
 
-Contexual data(UXIXC) ------> Prefiltering -----> transformed data (UXI) ----> "Traditional recommendation systems"
+Contexual data(UxIxC) ------> Prefiltering -----> transformed data (UxI) ----> "Traditional recommendation systems"
 
 ![image](https://user-images.githubusercontent.com/1594001/151270868-d5c84081-646b-498f-834b-ddf4d6c104b8.png)
 
@@ -385,11 +381,11 @@ Key is how to split the data (item splitting,user splitting and item-user splitt
 
 ![image](https://user-images.githubusercontent.com/1594001/151271002-6d8d1a16-6e93-4f57-8fae-e89b8b7a77fd.png)
 
-Look at rating  weekend is very high compare to weekday. (same users)
+Look at rating weekend ratings are very high compare to weekday ratings.(same users, same items)
 
 ![image](https://user-images.githubusercontent.com/1594001/151271090-640d5c0b-2459-4443-812b-aea20eee397b.png)
 
-It will aprear as item is merged with when to create multple split item data. its item-context pair.
+It will aprear as item is merged with context(when) to create multple split item data. its item-context pair.
 
 Use t test to determine what split maximize the t value.
 
@@ -408,16 +404,53 @@ Ignore the context during the recommendation phase.
 
 later do adjustment on the recommendation ranking by re-introducing context. Filter things which is not in current context. OR alterning ranking. Use heuristic  or another model for this.
 
-Contextual prob is found for user i , item j in context c = 
-Multiply the non-contexualized rating with a probablity to get the contexualize rating.
+Contextual prob is found for user i , item j in context c = Multiply the non-contexualized rating with a probablity to get the contexualize rating.
+
+# Context aware recommendations
+
+Handle context in the recommendation systems algorithm itself. 
+
+![image](https://user-images.githubusercontent.com/1594001/153130127-f149052b-94a9-43c7-8cbd-8b866dffc390.png)
+
+different contexts:
+
+![image](https://user-images.githubusercontent.com/1594001/153130305-048138b5-0130-4409-9ded-15a9aadfcaa5.png)
+
+Calculate context rating deviation (CRD)
+
+![image](https://user-images.githubusercontent.com/1594001/153130329-20640904-83c7-4230-9f48-5ae9bf19d0ad.png)
+
+recommenation system without context.
+
+![image](https://user-images.githubusercontent.com/1594001/153130687-b200ebfc-e9a4-42c4-8ad3-22a84b575aa0.png)
+
+adding CRD term
+![image](https://user-images.githubusercontent.com/1594001/153130885-bf06edaa-0ef6-434d-a44b-c1e868998a8b.png)
 
 
+# Youtube recommendations
 
+![image](https://user-images.githubusercontent.com/1594001/153130996-41c83a31-0195-4188-8d0e-8bdd45254848.png)
 
+Candidate generation NN : tuned for high precision
+Ranking NN : tuned for higher recall.
 
+![image](https://user-images.githubusercontent.com/1594001/153131198-330cc04b-9b6d-44bb-8410-ad94f0dc2a9b.png)
 
+![image](https://user-images.githubusercontent.com/1594001/153131294-43c4b265-e6fb-4153-8c21-231a5441e722.png)
 
+![image](https://user-images.githubusercontent.com/1594001/153131438-46488728-c300-4fc5-b6d5-71d7fdc051eb.png)
 
+Ranking NN:
 
+![image](https://user-images.githubusercontent.com/1594001/153131926-ba180f05-a490-40f1-a2c8-0550e6d1b715.png)
+
+![image](https://user-images.githubusercontent.com/1594001/153131719-46dcb361-be64-490f-9313-3d4a4703ae6d.png)
+
+![image](https://user-images.githubusercontent.com/1594001/153131763-0d2de54a-559a-4d9b-a5c8-4b6b1b8da338.png)
+
+unit weight for negative example and watch time for the postive example.
+
+![image](https://user-images.githubusercontent.com/1594001/153132076-b68f431e-6f9c-495c-b18e-8cff4251cd92.png)
 
 
