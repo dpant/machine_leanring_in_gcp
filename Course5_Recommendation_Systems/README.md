@@ -348,10 +348,11 @@ User about me (do NLP and find interests)
 
 ![image](https://user-images.githubusercontent.com/1594001/151041805-ca459859-da16-4103-9607-3beb146ece77.png)
 
-
-
-
 ![image](https://user-images.githubusercontent.com/1594001/151042253-a58a6e3f-d082-4f9d-be65-8b83d9b83c59.png)
+
+Lab: bigquery ml recommendation system using ALS
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive2/recommendation_systems/solutions/als_bqml_hybrid.ipynb
 
 
 # Context aware recommendations systems (CARS)
@@ -496,9 +497,16 @@ cloud flow
 https://www.coursera.org/learn/recommendation-models-gcp/lecture/9OxzE/cloud-composer-triggering-workflows-with-cloud-functions
 
 
-debugging cloud function and airflow
+Debugging cloud function and airflow
 
 https://www.coursera.org/learn/recommendation-models-gcp/lecture/AlIJ7/cloud-composer-monitoring-and-logging
+
+matrix factarization and recommendation system, including store data in sparsetensor etc.
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/10_recommend/cf_softmax_model/solution/cfmodel_softmax_model_solution.ipynb
+
+
+Notebook about advance recommendation systems:
+https://github.com/GoogleCloudPlatform/training-data-analyst/tree/master/courses/machine_learning/deepdive2/recommendation_systems/solutions
 
 
 Nice summary of full specialization 
