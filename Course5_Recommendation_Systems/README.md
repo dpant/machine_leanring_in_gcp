@@ -453,4 +453,56 @@ unit weight for negative example and watch time for the postive example.
 
 ![image](https://user-images.githubusercontent.com/1594001/153132076-b68f431e-6f9c-495c-b18e-8cff4251cd92.png)
 
+# Deploying recommendation system in cloud.
+
+How to build pipleline for continuous train (re-train) and deployment.
+
+How do you trust your upstream pipeline which is providing data. How do you put measure that bugs in upstream does not effect your model training. Health check building.
+
+Use google cloud composer (Apache airflow) for orchestration
+
+High level architechure of deployment:
+
+Data (Google analytics) Big Query ---> Exported to Google cloud storage (GCS as csv) --> Cloud ML engine -----> training model ----> deploy in app engine.
+
+![image](https://user-images.githubusercontent.com/1594001/153245520-a65814b1-31c9-4f87-ad9e-8c9a5ed82cb5.png)
+
+For recommendation systems:
+
+Use batch prediction (end of day or every hour. One recommendation is hard to scale and unnecessary) 
+How to autmatically refresh our training data and ML model? Use cloud composer (Apache Airflow). You can do perodic trigger or event based (when data comes in)
+Cloud function watch ---> trigger cloud compoer workflow to put the data in big query.
+
+Cloud composer:
+Model your workflow as a DAG (dependency) and airflow will execute it. Built in retry, healthcheck , email notificatnoi etc makes it very useful tool.
+There is a simple airflow webserver UI which you can see to manage and look at your pipeline (execution) in GCP.
+
+![image](https://user-images.githubusercontent.com/1594001/153247776-ac5059ef-0e57-458d-a1f4-02f5ae0d056a.png)
+
+https://www.coursera.org/learn/recommendation-models-gcp/lecture/tY8Qb/cloud-composer-overview
+
+Airflow: main DAG is specified as python file with operators.
+
+![image](https://user-images.githubusercontent.com/1594001/153252064-e536aee7-6645-48de-aff4-c0be98018e9b.png)
+
+Use healthcheck operator aka BigQueryCheckOperator().... If fail , it halts pipeline and send (email) notification.
+What if data is itself corrupt (non zero data but corrupt) put interval check (bands of values) in bigquery to prevent corrupt data making your ML model corrupt.
+
+The Cloud composer flow can be either trigrred based on time interval (pull based) or event driven (push based using cloud function)
+
+https://www.coursera.org/learn/recommendation-models-gcp/lecture/9OxzE/cloud-composer-triggering-workflows-with-cloud-functions
+
+cloud flow
+https://www.coursera.org/learn/recommendation-models-gcp/lecture/9OxzE/cloud-composer-triggering-workflows-with-cloud-functions
+
+
+debugging cloud function and airflow
+
+https://www.coursera.org/learn/recommendation-models-gcp/lecture/AlIJ7/cloud-composer-monitoring-and-logging
+
+
+Nice summary of full specialization 
+-----------
+
+https://www.coursera.org/learn/recommendation-models-gcp/lecture/4TN6G/specialization-summary
 
